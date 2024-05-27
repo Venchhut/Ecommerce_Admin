@@ -14,8 +14,12 @@ import {
   MdOutlinePeople,
   MdOutlineSettings,
   MdOutlineShoppingBag,
+  MdOutlineFolder,
+  MdOutlineMenu,
+  MdOutlineViewList,
 } from "react-icons/md";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
 import "./Sidebar.css";
 import { SidebarContext } from "../../context/SidebarContext";
 
@@ -68,39 +72,7 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="menu-item">
-              <Link to="/" className="menu-link">
-                <span className="menu-link-icon">
-                  <MdOutlineBarChart size={20} />
-                </span>
-                <span className="menu-link-text">Statistics</span>
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link to="/" className="menu-link">
-                <span className="menu-link-icon">
-                  <MdOutlineAttachMoney size={20} />
-                </span>
-                <span className="menu-link-text">Payment</span>
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link to="/" className="menu-link">
-                <span className="menu-link-icon">
-                  <MdOutlineCurrencyExchange size={18} />
-                </span>
-                <span className="menu-link-text">Transactions</span>
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link to="/" className="menu-link">
-                <span className="menu-link-icon">
-                  <MdOutlineShoppingBag size={20} />
-                </span>
-                <span className="menu-link-text">Products</span>
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link to="/" className="menu-link">
+              <Link to="/customer" className="menu-link">
                 <span className="menu-link-icon">
                   <MdOutlinePeople size={20} />
                 </span>
@@ -108,13 +80,46 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="menu-item">
+              <Link to="/product" className="menu-link">
+                <span className="menu-link-icon">
+                  <MdOutlineShoppingBag size={20} />
+                </span>
+                <span className="menu-link-text">Products</span>
+              </Link>
+            </li>
+            {/* <li className="menu-item">
+              <Link to="/" className="menu-link">
+                <span className="menu-link-icon">
+                  <MdOutlineBarChart size={20} />
+                </span>
+                <span className="menu-link-text">Statistics</span>
+              </Link>
+            </li> */}
+            <li className="menu-item">
+              <Link to="/category" className="menu-link">
+                <span className="menu-link-icon">
+                  <MdOutlineMenu size={20} />
+                </span>
+                <span className="menu-link-text">Category</span>
+              </Link>
+            </li>
+            <li className="menu-item">
+              <Link to="/order" className="menu-link">
+                <span className="menu-link-icon">
+                  <MdOutlineCurrencyExchange size={18} />
+                </span>
+                <span className="menu-link-text">Order</span>
+              </Link>
+            </li>
+
+            {/* <li className="menu-item">
               <Link to="/" className="menu-link">
                 <span className="menu-link-icon">
                   <MdOutlineMessage size={18} />
                 </span>
                 <span className="menu-link-text">Messages</span>
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
 
@@ -129,12 +134,18 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="menu-item">
-              <Link to="/" className="menu-link">
+              <button
+                onClick={() => {
+                  Cookies.remove("token");
+                  window.location.href = "/login";
+                }}
+                className="menu-link"
+              >
                 <span className="menu-link-icon">
                   <MdOutlineLogout size={20} />
                 </span>
                 <span className="menu-link-text">Logout</span>
-              </Link>
+              </button>
             </li>
           </ul>
         </div>

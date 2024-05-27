@@ -1,0 +1,184 @@
+.content-area-table {
+  background: #f9fafb;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .content-area-table {
+    padding: 16px;
+  }
+}
+
+.content-area-table .data-table-title {
+  font-size: 22px;
+  color: #333;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.content-area-table .data-table-diagram {
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  overflow-x: auto;
+}
+
+.content-area-table .data-table-diagram::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.content-area-table .data-table-diagram::-webkit-scrollbar-track {
+  background-color: #f3f4f6;
+}
+
+.content-area-table .data-table-diagram::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #cbd5e1;
+}
+
+.content-area-table table {
+  min-width: 1000px;
+  width: 100%;
+  border-collapse: collapse;
+  color: #333;
+  border: 1px solid #e5e7eb;
+}
+
+.content-area-table table td,
+.content-area-table table th {
+  padding: 16px;
+  border: 1px solid #e5e7eb; /* Add this line to create border for both columns and rows */
+}
+
+@media (max-width: 768px) {
+  .content-area-table table td,
+  .content-area-table table th {
+    font-size: 14px;
+    padding: 12px;
+  }
+}
+
+.content-area-table table thead {
+  text-align: left;
+  font-size: 16px;
+  background-color: #f3f4f6;
+}
+
+.content-area-table table thead th:last-child {
+  text-align: center;
+}
+
+.content-area-table table .dt-cell-action {
+  text-align: center;
+}
+
+.edit-button,
+.delete-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.edit-button .fas,
+.delete-button .fas {
+  margin-right: 8px;
+}
+
+.edit-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.delete-button {
+  background-color: #dc3545;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+  list-style: none;
+}
+
+.pagination-button {
+  background-color: #f3f4f6;
+  border: 1px solid #cbd5e1;
+  color: #333;
+  padding: 8px 12px;
+  margin: 0 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.pagination-button.active {
+  background-color: #3b82f6;
+  color: #fff;
+}
+
+.pagination-button:hover {
+  background-color: #2563eb;
+  color: #fff;
+  transform: translateY(-2px);
+}
+.add-button {
+  background-color: #3b82f6; /* Green background */
+  color: #fff; /* White text */
+  border: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  font-size: 16px;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.add-button:hover {
+  background-color: #3b82f6; /* Darker green on hover */
+  transform: translateY(-2px);
+}
+
+.add-button .fa-plus {
+  margin-right: 8px;
+}
+.data-table-info {
+  display: flex;
+  justify-content: space-between; /* Aligns items to the left and right */
+  align-items: center; /* Aligns items vertically */
+}
+
+.add-button {
+  background-color: #3b82f6;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.add-button:hover {
+  background-color: #3b82f6;
+  transform: translateY(-2px);
+}
+
+.add-button .fa-plus {
+  margin-right: 8px;
+}
