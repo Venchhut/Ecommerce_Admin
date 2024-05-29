@@ -1,178 +1,66 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ReactPaginate from "react-paginate";
+import Cookies from "js-cookie";
 import "./Order.css";
 
 const TABLE_HEADS = [
   "No",
-  "Order ID",
-  "Username",
+
+  "User ID",
+  "Email",
   "Address",
-  "Order Type",
-  "Price",
   "Payment Method",
+  "Phone Number",
+  "Order date",
   "Order Status",
   "Action",
 ];
 
-const TABLE_DATA = [
-  // Your data here...
-  // For demonstration purposes, duplicate the original data
-  // and add more entries to simulate a larger dataset
-  {
-    no: 1,
-    order_id: "Order #93",
-    username: "Chheavvey",
-    address: "បុរីសៀមរាប សង្កាត់សាលាកំរើក ខណ្ឌសាលាកំរើក",
-    order_type: "Delivery",
-    price: 1134,
-    payment_method: "Cash",
-    order_status: "Delivered",
-  },
-  {
-    no: 2,
-    order_id: "Order #94",
-    username: "Chheavvey",
-    address: "No address available",
-    order_type: "Receive",
-    price: 1000,
-    payment_method: "Cash",
-    order_status: "Pending",
-  },
-  {
-    no: 3,
-    order_id: "Order #95",
-    username: "Chheavvey",
-    address: "23 Ta Quang Buu , Bach Khoa Hai Ba Trung, Hanoi",
-    order_type: "Delivery",
-    price: 410,
-    payment_method: "Cash",
-    order_status: "Canceled",
-  },
-  {
-    no: 4,
-    order_id: "Order #96",
-    username: "Chheavvey",
-    address: "បុរីសៀមរាប សង្កាត់សាលាកំរើក ខណ្ឌសាលាកំរើក",
-    order_type: "Delivery",
-    price: 410,
-    payment_method: "Cash",
-    order_status: "Delivered",
-  },
-  {
-    no: 5,
-    order_id: "Order #96",
-    username: "Chheavvey",
-    address: "បុរីសៀមរាប សង្កាត់សាលាកំរើក ខណ្ឌសាលាកំរើក",
-    order_type: "Delivery",
-    price: 410,
-    payment_method: "Cash",
-    order_status: "Delivered",
-  },
-  {
-    no: 6,
-    order_id: "Order #96",
-    username: "Chheavvey",
-    address: "បុរីសៀមរាប សង្កាត់សាលាកំរើក ខណ្ឌសាលាកំរើក",
-    order_type: "Delivery",
-    price: 410,
-    payment_method: "Cash",
-    order_status: "Delivered",
-  },
-  {
-    no: 7,
-    order_id: "Order #96",
-    username: "Chheavvey",
-    address: "បុរីសៀមរាប សង្កាត់សាលាកំរើក ខណ្ឌសាលាកំរើក",
-    order_type: "Delivery",
-    price: 410,
-    payment_method: "Cash",
-    order_status: "Delivered",
-  },
-  {
-    no: 8,
-    order_id: "Order #96",
-    username: "Chheavvey",
-    address: "បុរីសៀមរាប សង្កាត់សាលាកំរើក ខណ្ឌសាលាកំរើក",
-    order_type: "Delivery",
-    price: 410,
-    payment_method: "Cash",
-    order_status: "Delivered",
-  },
-  {
-    no: 9,
-    order_id: "Order #96",
-    username: "Chheavvey",
-    address: "បុរីសៀមរាប សង្កាត់សាលាកំរើក ខណ្ឌសាលាកំរើក",
-    order_type: "Delivery",
-    price: 410,
-    payment_method: "Cash",
-    order_status: "Delivered",
-  },
-  {
-    no: 10,
-    order_id: "Order #96",
-    username: "Chheavvey",
-    address: "បុរីសៀមរាប សង្កាត់សាលាកំរើក ខណ្ឌសាលាកំរើក",
-    order_type: "Delivery",
-    price: 410,
-    payment_method: "Cash",
-    order_status: "Delivered",
-  },
-  {
-    no: 11,
-    order_id: "Order #96",
-    username: "Chheavvey",
-    address: "បុរីសៀមរាប សង្កាត់សាលាកំរើក ខណ្ឌសាលាកំរើក",
-    order_type: "Delivery",
-    price: 410,
-    payment_method: "Cash",
-    order_status: "Delivered",
-  },
-  {
-    no: 12,
-    order_id: "Order #96",
-    username: "Chheavvey",
-    address: "បុរីសៀមរាប សង្កាត់សាលាកំរើក ខណ្ឌសាលាកំរើក",
-    order_type: "Delivery",
-    price: 410,
-    payment_method: "Cash",
-    order_status: "Delivered",
-  },
-  {
-    no: 13,
-    order_id: "Order #96",
-    username: "Chheavvey",
-    address: "បុរីសៀមរាប សង្កាត់សាលាកំរើក ខណ្ឌសាលាកំរើក",
-    order_type: "Delivery",
-    price: 410,
-    payment_method: "Cash",
-    order_status: "Delivered",
-  },
-  {
-    no: 14,
-    order_id: "Order #96",
-    username: "Chheavvey",
-    address: "បុរីសៀមរាប សង្កាត់សាលាកំរើក ខណ្ឌសាលាកំរើក",
-    order_type: "Delivery",
-    price: 410,
-    payment_method: "Cash",
-    order_status: "Delivered",
-  },
-];
-
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 8;
 
 const Order = () => {
   const [currentPage, setCurrentPage] = useState(0);
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchOrders();
+  }, [currentPage]); // Fetch orders when currentPage changes
+
+  const fetchOrders = async () => {
+    try {
+      const token = Cookies.get("token");
+      const response = await fetch(
+        `http://localhost:8800/api/order/all?page=${currentPage + 1}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch orders");
+      }
+      const data = await response.json();
+      setOrders(data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
 
   const handlePageClick = (data) => {
     setCurrentPage(data.selected);
   };
 
   const offset = currentPage * ITEMS_PER_PAGE;
-  const currentItems = TABLE_DATA.slice(offset, offset + ITEMS_PER_PAGE);
-  const pageCount = Math.ceil(TABLE_DATA.length / ITEMS_PER_PAGE);
+  const currentItems = orders.slice(offset, offset + ITEMS_PER_PAGE);
+  const pageCount = Math.ceil(orders.length / ITEMS_PER_PAGE);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <section className="content-area-table">
@@ -189,24 +77,29 @@ const Order = () => {
             </tr>
           </thead>
           <tbody>
-            {currentItems.map((dataItem) => (
-              <tr key={dataItem.no}>
-                <td>{dataItem.no}</td>
-                <td>{dataItem.order_id}</td>
-                <td>{dataItem.username}</td>
+            {currentItems.map((dataItem, index) => (
+              <tr key={index}>
+                <td>{offset + index + 1}</td>
+
+                <td>#{dataItem.UserId}</td>
+                <td>{dataItem.email}</td>
                 <td>{dataItem.address}</td>
-                <td>{dataItem.order_type}</td>
-                <td>{dataItem.price} $</td>
-                <td>{dataItem.payment_method}</td>
+                <td>{dataItem.payment}</td>
+                <td>{dataItem.phone} </td>
+                <td>{dataItem.createdAt}</td>
                 <td>
                   <span
-                    className={`status-badge ${dataItem.order_status.toLowerCase()}`}
+                    className={`status-badge ${
+                      dataItem.order_status
+                        ? dataItem.order_status.toLowerCase()
+                        : ""
+                    }`}
                   >
-                    {dataItem.order_status}
+                    {dataItem.order_status || "Unknown"}
                   </span>
                 </td>
                 <td>
-                  <Link to={`/order/:orderId`}>
+                  <Link to={`/order/${dataItem.id}`}>
                     <button className="view-details-btn">Details</button>
                   </Link>
                 </td>

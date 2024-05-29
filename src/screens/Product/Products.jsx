@@ -21,7 +21,7 @@ const TABLE_HEADS = [
   "Delete",
 ];
 
-const ITEMS_PER_PAGE = 4;
+const ITEMS_PER_PAGE = 6;
 
 const Products = () => {
   const [products, setProducts] = useState([]);
