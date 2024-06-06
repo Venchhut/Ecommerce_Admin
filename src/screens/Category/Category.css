@@ -49,6 +49,7 @@
 .content-area-table table td,
 .content-area-table table th {
   padding: 14px 12px;
+  text-align: center; /* Center text in all cells */
 }
 
 @media (max-width: 768px) {
@@ -65,8 +66,16 @@
   background-color: var(--thead-bg-color);
 }
 
-.content-area-table table thead th:last-child {
+.content-area-table table thead th {
   text-align: center;
+}
+
+.content-area-table table thead th.category-name {
+  width: 150px; /* Adjust the width as needed */
+}
+
+.content-area-table table thead th.category-icon {
+  width: 100px; /* Adjust the width as needed */
 }
 
 .content-area-table table .dt-cell-action {
@@ -85,6 +94,7 @@
   align-items: center;
   justify-content: center;
   transition: background-color 0.3s, transform 0.3s;
+  margin: 0 auto; /* Center the button */
 }
 
 .edit-button .fas,
@@ -134,6 +144,7 @@
   color: #fff;
   transform: translateY(-2px);
 }
+
 .add-button {
   background-color: #3b82f6; /* Green background */
   color: #fff; /* White text */
@@ -155,6 +166,7 @@
 .add-button .fa-plus {
   margin-right: 8px;
 }
+
 .data-table-info {
   display: flex;
   justify-content: space-between; /* Aligns items to the left and right */
@@ -189,4 +201,5 @@
   border: none;
   border-radius: 3px;
   cursor: pointer;
+  margin-bottom: 10px;
 }

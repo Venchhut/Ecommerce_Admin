@@ -4,17 +4,17 @@ import { Link } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt, faPlus } from "@fortawesome/free-solid-svg-icons";
+import Cookies from "js-cookie";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./Products.css";
 
 const TABLE_HEADS = [
   "No",
   "Categories ID",
   "Name",
-
   "Description",
-
   "Image",
-
   "Price",
   "Stock",
   "Edit",
@@ -35,6 +35,7 @@ const Products = () => {
     try {
       const response = await axios.get("http://localhost:8800/api/product");
       setProducts(response.data.products);
+      console.log(response.data.products);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -46,10 +47,17 @@ const Products = () => {
 
   const handleDeleteProduct = async (productId) => {
     try {
-      await axios.delete(`http://localhost:8800/api/product/${productId}`);
-      fetchProducts();
+      const token = Cookies.get("token");
+      await axios.delete(`http://localhost:8800/api/product/${productId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      fetchProducts(); // Refresh the product list after deletion
+      toast.success("Product deleted successfully!");
     } catch (error) {
       console.error("Error deleting product:", error);
+      toast.error("Failed to delete product");
     }
   };
 
@@ -80,12 +88,10 @@ const Products = () => {
           <tbody>
             {currentItems.map((dataItem, index) => (
               <tr key={dataItem.id}>
-                <td>{index + 1}</td>
+                <td>{index + 1 + offset}</td>
                 <td>Category#{dataItem.CategoryId}</td>
                 <td>{dataItem.title}</td>
-
                 <td>{dataItem.Desc}</td>
-
                 <td>
                   <img
                     src={dataItem.image}
@@ -93,7 +99,6 @@ const Products = () => {
                     style={{ width: "50px" }}
                   />
                 </td>
-
                 <td>${dataItem.price}</td>
                 <td>{dataItem.quantity}</td>
                 <td className="dt-cell-action">
@@ -132,6 +137,7 @@ const Products = () => {
           breakLinkClassName={"pagination-button"}
         />
       </div>
+      <ToastContainer />
     </section>
   );
 };

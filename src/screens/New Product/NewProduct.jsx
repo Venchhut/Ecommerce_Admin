@@ -1,18 +1,20 @@
-import axios from "axios";
 import React, { useState } from "react";
+import axios from "axios";
 import Cookies from "js-cookie";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const CreateProduct = () => {
+  const navigate = useNavigate();
   const [productData, setProductData] = useState({
     title: "",
     Desc: "",
-    image: "",
     price: "",
     quantity: "",
     CategoryId: "",
   });
-  const [createdProduct, setCreatedProduct] = useState(null);
-  const [error, setError] = useState("");
+  const [image, setImage] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,28 +24,45 @@ const CreateProduct = () => {
     }));
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const formData = new FormData();
+    for (const key in productData) {
+      formData.append(key, productData[key]);
+    }
+    if (image) {
+      formData.append("image", image);
+    }
+
     try {
-      const token = Cookies.get("token"); // Get the token from cookies
+      const token = Cookies.get("token");
       const response = await axios.post(
         "http://localhost:8800/api/product/create",
-        productData,
+        formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
           },
         }
       );
-      setCreatedProduct(response.data.product);
-      setError("");
+      toast.success("Product created successfully!");
+      setTimeout(() => {
+        navigate("/product");
+      }, 2000);
     } catch (error) {
-      setError("Failed to create product. Please check your input.");
+      toast.error("Failed to create product. Please check your input.");
     }
   };
 
   return (
     <div style={styles.container}>
+      <ToastContainer />
       <div style={styles.formContainer}>
         <h2 style={styles.header}>Create Product</h2>
         <form onSubmit={handleSubmit}>
@@ -68,41 +87,32 @@ const CreateProduct = () => {
               style={styles.textarea}
             />
           </div>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Image URL:</label>
-            <input
-              type="text"
-              name="image"
-              value={productData.image}
-              onChange={handleChange}
-              required
-              style={styles.input}
-            />
+          <div style={styles.formRow}>
+            <div style={styles.formGroup}>
+              <label style={styles.label}>Price:</label>
+              <input
+                type="number"
+                name="price"
+                value={productData.price}
+                onChange={handleChange}
+                required
+                style={styles.input}
+              />
+            </div>
+            <div style={styles.formGroup}>
+              <label style={styles.label}>Quantity:</label>
+              <input
+                type="number"
+                name="quantity"
+                value={productData.quantity}
+                onChange={handleChange}
+                required
+                style={styles.input}
+              />
+            </div>
           </div>
           <div style={styles.formGroup}>
-            <label style={styles.label}>Price:</label>
-            <input
-              type="number"
-              name="price"
-              value={productData.price}
-              onChange={handleChange}
-              required
-              style={styles.input}
-            />
-          </div>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Quantity:</label>
-            <input
-              type="number"
-              name="quantity"
-              value={productData.quantity}
-              onChange={handleChange}
-              required
-              style={styles.input}
-            />
-          </div>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Category ID:</label>
+            <label style={styles.label}>Category:</label>
             <input
               type="text"
               name="CategoryId"
@@ -112,21 +122,23 @@ const CreateProduct = () => {
               style={styles.input}
             />
           </div>
-          <button type="submit" style={styles.button}>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Image:</label>
+            <input
+              type="file"
+              name="image"
+              onChange={handleFileChange}
+              required
+              style={styles.input}
+            />
+          </div>
+          <button
+            type="submit"
+            style={{ ...styles.button, ...styles.buttonHover }}
+          >
             Create Product
           </button>
         </form>
-        {error && <p style={styles.error}>{error}</p>}
-        {createdProduct && (
-          <p style={styles.success}>Product created successfully!</p>
-        )}
-      </div>
-      <div style={styles.imageContainer}>
-        <img
-          src="https://img.freepik.com/free-photo/laptop-near-smartphone-digital-devices-shopping-trolley_23-2147957579.jpg?t=st=1716888452~exp=1716892052~hmac=d1335f73bd4a27cd0be0308f0f642cbe5af287341515daddc80b2113c1a17d37&w=996"
-          alt="Product display"
-          style={styles.image}
-        />
       </div>
     </div>
   );
@@ -137,24 +149,30 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    maxWidth: "1200px",
+    maxWidth: "800px",
     margin: "0 auto",
-    padding: "1rem",
-    border: "1px solid #ccc",
-    borderRadius: "8px",
-    backgroundColor: "#f9f9f9",
+    padding: "2rem",
+    borderRadius: "12px",
+    backgroundColor: "#f8f9fa",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
   },
   formContainer: {
     flex: 1,
-    paddingRight: "1rem",
+    padding: "1rem",
   },
   header: {
-    textAlign: "center",
-    marginBottom: "2rem",
+    marginBottom: "1rem",
     color: "#333",
+    fontSize: "2rem",
+    textAlign: "center",
   },
   formGroup: {
-    marginBottom: "1.5rem",
+    marginBottom: "1rem",
+  },
+  formRow: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginBottom: "1rem",
   },
   label: {
     display: "block",
@@ -168,6 +186,7 @@ const styles = {
     border: "1px solid #ccc",
     borderRadius: "4px",
     fontSize: "1rem",
+    transition: "border-color 0.3s",
   },
   textarea: {
     width: "100%",
@@ -177,6 +196,7 @@ const styles = {
     fontSize: "1rem",
     height: "100px",
     resize: "vertical",
+    transition: "border-color 0.3s",
   },
   button: {
     width: "100%",
@@ -187,32 +207,12 @@ const styles = {
     borderRadius: "4px",
     fontSize: "1rem",
     cursor: "pointer",
+    transition: "background-color 0.3s",
   },
   buttonHover: {
-    backgroundColor: "#0056b3",
-  },
-  error: {
-    color: "red",
-    textAlign: "center",
-    marginTop: "1rem",
-  },
-  success: {
-    color: "green",
-    textAlign: "center",
-    marginTop: "1rem",
-  },
-  imageContainer: {
-    flex: 1,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingLeft: "1rem",
-    height: "100%", // Set the height of the container to 100%
-  },
-  image: {
-    maxWidth: "100%",
-    maxHeight: "100%", // Change height to maxHeight
-    borderRadius: "8px",
+    "&:hover": {
+      backgroundColor: "#0056b3",
+    },
   },
 };
 

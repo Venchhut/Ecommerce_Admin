@@ -16,6 +16,8 @@ import NewProduct from "./screens/New Product/NewProduct";
 import EditPrduct from "./screens/EditProduct/EditPrduct";
 import Cookies from "js-cookie";
 import Login from "./screens/Login/Login";
+import NewCategory from "./screens/New Category/NewCategory";
+import EditCategory from "./screens/EditCategory/EditCategory";
 
 function App() {
   const { theme, toggleTheme } = useContext(ThemeContext);
@@ -51,8 +53,11 @@ function App() {
               <Route path="/product" element={<Products />} />
               <Route path="/newproduct" element={<NewProduct />} />
               <Route path="/editproduct/:id" element={<EditPrduct />} />
+
               <Route path="/customer" element={<Customer />} />
               <Route path="/category" element={<Category />} />
+              <Route path="/newCategory/:id" element={<NewCategory />} />
+              <Route path="/editCategory/:id" element={<EditCategory />} />
               <Route path="/order" element={<Order />} />
               <Route path="/order/:orderId" element={<OrderDetails />} />
               <Route path="*" element={<PageNotFound />} />

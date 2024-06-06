@@ -2,26 +2,32 @@
 
 body {
   font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent scrolling */
 }
 
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #f7f7f7;
+  height: 80vh; /* Set height to viewport height */
+  width: 50%; /* Set width to viewport width */
+  background-color: #f9f9f9;
 }
 
 .form-container {
   background-color: #fff;
-  padding: 2rem;
+  padding: 1.5rem; /* Smaller padding */
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 100%; /* Set maximum width to 100% */
+  width: 90%; /* Adjust width as needed */
 }
 
 h2 {
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem; /* Increased margin for better spacing */
 }
 
 form {
@@ -30,21 +36,22 @@ form {
 }
 
 form div {
-  margin-bottom: 1rem;
+  margin-bottom: 1rem; /* Smaller margin */
 }
 
 label {
   font-weight: bold;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem; /* Smaller margin */
 }
 
 input[type="text"],
 input[type="number"],
 textarea {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.5rem; /* Smaller padding */
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 6px; /* Smaller border radius */
+  font-size: 0.9rem; /* Smaller font size */
 }
 
 textarea {
@@ -52,12 +59,12 @@ textarea {
 }
 
 button {
-  padding: 0.75rem;
+  padding: 0.5rem 1rem; /* Smaller padding */
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   background-color: #007bff;
   color: #fff;
-  font-size: 1rem;
+  font-size: 0.9rem; /* Smaller font size */
   cursor: pointer;
 }
 
@@ -65,14 +72,16 @@ button:hover {
   background-color: #0056b3;
 }
 
-p {
+.error,
+.success-message {
   text-align: center;
+  margin-top: 1rem; /* Smaller margin */
+}
+
+.error {
   color: red;
-  margin-top: 1rem;
 }
 
 .success-message {
-  text-align: center;
   color: green;
-  margin-top: 1rem;
 }
