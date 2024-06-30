@@ -9,12 +9,11 @@ const OrderDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [status, setStatus] = useState(""); // State for updating status
-
+  const token = Cookies.get("token");
   useEffect(() => {
     // Fetch the order details from the backend API
     const fetchOrderDetails = async () => {
       try {
-        const token = Cookies.get("token");
         const response = await fetch(
           `http://localhost:8800/api/order/detail/${orderId}`,
           {
@@ -45,22 +44,22 @@ const OrderDetails = () => {
 
   const handleUpdateStatus = async () => {
     try {
+      console.log(status);
       const response = await fetch(
-        `http://localhost:8800/api/order/updateStatus/${orderId}`,
+        `http://localhost:8800/api/tracking/updateStatus/${orderId}`,
         {
           method: "PUT",
           headers: {
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ status }),
         }
       );
-      if (!response.ok) {
-        throw new Error("Failed to update order status");
-      }
-      alert("Order status updated successfully");
+
+      // alert("Order status updated successfully");
     } catch (error) {
-      alert(error.message);
+      console.log(error);
     }
   };
 
@@ -84,10 +83,10 @@ const OrderDetails = () => {
             <div className="delivery-details">
               <h2>Delivery Details</h2>
               <form>
-                <div className="form-group">
+                {/* <div className="form-group">
                   <label htmlFor="name">Name:</label>
                   <input type="text" id="name" value={order.name} readOnly />
-                </div>
+                </div> */}
                 <div className="form-group">
                   <label htmlFor="email">Email:</label>
                   <input type="email" id="email" value={order.email} readOnly />
@@ -101,7 +100,7 @@ const OrderDetails = () => {
                   <input
                     type="text"
                     id="deliveryType"
-                    value={order.deliveryType}
+                    value={order.payment}
                     readOnly
                   />
                 </div>
@@ -143,14 +142,14 @@ const OrderDetails = () => {
               </tbody>
             </table>
             <div className="order-summary">
-              <p>
+              {/* <p>
                 <strong>Coupon Discount:</strong> {order.couponDiscount} %
-              </p>
-              <p>
+              </p> */}
+              {/* <p>
                 <strong>Delivery:</strong> ${order.deliveryCost}
-              </p>
+              </p> */}
               <p>
-                <strong>Total Price:</strong> ${order.totalPrice}
+                <strong>Total Price:</strong> ${order.amount}
               </p>
             </div>
             <div className="order-status">
