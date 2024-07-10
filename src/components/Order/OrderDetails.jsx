@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import "./OrderDetails.css"; // Import the CSS file
+import "./OrderDetails.css";
 import Cookies from "js-cookie";
 
 const OrderDetails = () => {
@@ -107,7 +107,7 @@ const OrderDetails = () => {
                 <div className="form-group">
                   <label htmlFor="address">Address:</label>
                   <textarea id="address" readOnly>
-                    {order.address}
+                    {`${order.Address.street_address}, ${order.Address.city}, ${order.Address.country}`}
                   </textarea>
                 </div>
               </form>

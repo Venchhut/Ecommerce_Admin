@@ -6,7 +6,6 @@ import "./Order.css";
 
 const TABLE_HEADS = [
   "No",
-
   "User ID",
   "Email",
   "Address",
@@ -80,22 +79,20 @@ const Order = () => {
             {currentItems.map((dataItem, index) => (
               <tr key={index}>
                 <td>{offset + index + 1}</td>
-
                 <td>#{dataItem.UserId}</td>
                 <td>{dataItem.email}</td>
-                <td>{dataItem.address}</td>
+                <td>{`${dataItem.Address.street_address}, ${dataItem.Address.city}, ${dataItem.Address.country}`}</td>{" "}
+                {/* Update this line */}
                 <td>{dataItem.payment}</td>
-                <td>{dataItem.phone} </td>
-                <td>{dataItem.createdAt}</td>
+                <td>{dataItem.phone}</td>
+                <td>{new Date(dataItem.createdAt).toLocaleDateString()}</td>
                 <td>
                   <span
                     className={`status-badge ${
-                      dataItem.order_status
-                        ? dataItem.order_status.toLowerCase()
-                        : ""
+                      dataItem.status ? dataItem.order_status.toLowerCase() : ""
                     }`}
                   >
-                    {dataItem.order_status || "Unknown"}
+                    {dataItem.status || "Processing"}
                   </span>
                 </td>
                 <td>
